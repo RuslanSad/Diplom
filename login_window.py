@@ -25,7 +25,7 @@ class LoginWindow(QWidget):
         image_label = QLabel(self)
         pixmap = QPixmap(
             "company_logo.png"
-        )  # подставьте путь к вашему логотипу компании
+        )
         image_label.setPixmap(pixmap)
         self.username_label = QLabel("Username:")
         self.password_label = QLabel("Password:")
@@ -63,12 +63,12 @@ class LoginWindow(QWidget):
         passwordindb = cursor.fetchone()[0]
         password = self.password_input.text()
 
-        if username == "admin" and password == passwordindb:
+        if password == passwordindb:
             self.main_window = MainWindow()
             self.main_window.show()
             self.close()
         else:
-            QMessageBox.warning(self, "Login", "Incorrect username or password")
+            QMessageBox.warning(self, "Error", "Incorrect username or password")
 
 
 if __name__ == "__main__":

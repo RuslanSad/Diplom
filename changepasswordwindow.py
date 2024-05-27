@@ -18,7 +18,8 @@ class ChangePasswordWin(QWidget):
         self.setGeometry(100, 100, 300, 150)
 
         layout = QVBoxLayout()
-
+        self.username_label = QLabel("Username:")
+        self.username_input = QLineEdit()
         self.old_password_input = QLineEdit()
         self.old_password_input.setEchoMode(QLineEdit.Password)
         self.new_password_input = QLineEdit()
@@ -27,6 +28,8 @@ class ChangePasswordWin(QWidget):
         self.confirm_password_input.setEchoMode(QLineEdit.Password)
         self.change_password_button = QPushButton("Change Password")
 
+        layout.addWidget(self.username_label)
+        layout.addWidget(self.username_input)
         layout.addWidget(QLabel("Old Password:"))
         layout.addWidget(self.old_password_input)
         layout.addWidget(QLabel("New Password:"))
@@ -40,7 +43,7 @@ class ChangePasswordWin(QWidget):
         self.change_password_button.clicked.connect(self.on_change_password)
 
     def on_change_password(self):
-        username = "admin"
+        username = self.username_input.text()
         old_password = self.old_password_input.text()
         new_password = self.new_password_input.text()
         confirm_password = self.confirm_password_input.text()
