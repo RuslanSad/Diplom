@@ -9,8 +9,9 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QMessageBox,
 )
+from PyQt5.QtSql import QSqlDatabase
 from PyQt5.QtGui import QPixmap
-from main_window import MainWindow
+import main_window
 from changepasswordwindow import ChangePasswordWin
 
 
@@ -57,22 +58,30 @@ class LoginWindow(QWidget):
 
     def on_login(self):
         username = self.username_input.text()
+        logins = ['admin','Ruslan','Valya']
         conn = sqlite3.connect("warehouse.db")
         cursor = conn.cursor()
         cursor.execute("SELECT password FROM users WHERE username=?", (username,))
-        passwordindb = cursor.fetchone()[0]
-        password = self.password_input.text()
-
-        if password == passwordindb:
-            self.main_window = MainWindow()
-            self.main_window.show()
-            self.close()
-        else:
+        if username not in logins:
             QMessageBox.warning(self, "Error", "Incorrect username or password")
+        else:
+            passwordindb = cursor.fetchone()[0]
+            password = self.password_input.text()
+            if password == passwordindb:
+                self.main_window = main_window.MainWindow()
+                self.main_window.show()
+                self.close()
+            else:
+                QMessageBox.warning(self, "Error", "Incorrect username or password")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    db = QSqlDatabase.addDatabase("QSQLITE")
+    db.setDatabaseName("warehouse.db")
+    if not db.open():
+        print("Cannot open database")
+        sys.exit(1)
     window = LoginWindow()
     window.show()
     sys.exit(app.exec_())
