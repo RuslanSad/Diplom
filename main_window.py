@@ -41,8 +41,8 @@ class MainWindow(QMainWindow):
 
         self.tab_widget.addTab(suppliers_tab, "Склад")
         self.tab_widget.addTab(workers, "Сотрудники")
-        self.tab_widget.addTab(dostavshiki, "Доставщики")
-        self.tab_widget.addTab(our_products_tab, "Доставки")
+        self.tab_widget.addTab(dostavshiki, "Поставщики")
+        self.tab_widget.addTab(our_products_tab, "Поставки")
         self.tab_widget.addTab(supplier_products_tab, "Заказы")
 
         self.setCentralWidget(self.tab_widget)
@@ -181,14 +181,14 @@ class MainWindow(QMainWindow):
             filter_date = date_edit.date().toPyDate()
             filter_status = status_combo.currentText()
             supplier_products_model.setFilter(
-                f"дата_доставки = '{filter_date}' AND статус = '{filter_status}'"
+                f"дата_поставки = '{filter_date}' AND статус = '{filter_status}'"
             )
             supplier_products_model.select()
 
         layout = QVBoxLayout()
 
         supplier_products_model = QSqlTableModel()
-        supplier_products_model.setTable("Доставки")
+        supplier_products_model.setTable("Поставки")
         supplier_products_model.select()
 
         supplier_products_table_view = QTableView()
